@@ -2,11 +2,11 @@ package main.java.kpiCicle.model;
 
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
+
 
 public class DocumentParser {
     private XWPFDocument document;
@@ -45,8 +45,7 @@ public class DocumentParser {
         return blocks;
     }
 
-    public List<CycleElement> generateProcedure() {
-        List<CycleElement> cycleElements = new ArrayList<>();
+    public void generateProcedure() {
         List<StringBuilder> blocks = parseDocOnBlocks();
         for (StringBuilder st: blocks) {
             System.out.println(st);
@@ -57,6 +56,5 @@ public class DocumentParser {
         // и наоборот счетчик cond_id общий на всю процедуру.
         // заменить нужные значения в шаблонах. собрать процедуру и вывести на экран.
 
-        return cycleElements;
     }
 }
