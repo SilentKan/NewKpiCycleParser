@@ -11,6 +11,15 @@ public class CycleElement {
 
     private String cond_name1;
     private String attrib_xxx_value;
+    private String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public String getCond_name1() {
         return cond_name1;

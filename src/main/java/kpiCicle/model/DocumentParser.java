@@ -14,21 +14,8 @@ public class DocumentParser {
         this.document = doc;
     }
 
-    // в получении параграфов нет нужды
-   /* public List<String> getParagraph() {
-        List<String> paragraph = new ArrayList<>();
-        List<XWPFParagraph> paragraphs = document.getParagraphs();
-        for (XWPFParagraph p : paragraphs) {
-            if ((paragraph.isEmpty() && !p.getText().startsWith("Нелегальный продукт в точке")) || p.getText().length() == 0 || p.getText().length() == 1) {
-                continue;
-            } else {
-                paragraph.add(p.getText());
-            }
-        }
-        return paragraph;*/
-   // }
-
-    public List<StringBuilder> getAllDocument() {
+    // парсим документ на блоки
+    public List<StringBuilder> parseDocOnBlocks() {
         List<String> lines = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
         List<StringBuilder> blocks = new ArrayList<>();
@@ -53,17 +40,22 @@ public class DocumentParser {
                 block.append(st + ";");
             }
         }
+        // добавляем последний блок в коллекцию
         blocks.add(block);
-        System.out.println(blocks.size());
-        for (StringBuilder st: blocks) {
-            System.out.println(st);
-            System.out.println("-------");
-        }
         return blocks;
     }
 
-    public List<CycleElement> parse() {
+    public List<CycleElement> generateProcedure() {
         List<CycleElement> cycleElements = new ArrayList<>();
+        List<StringBuilder> blocks = parseDocOnBlocks();
+        for (StringBuilder st: blocks) {
+            System.out.println(st);
+            System.out.println("------");
+        }
+        // прочитать элементы коллекции blocks. каждая строка это блок, состоящий из нескольких условий.
+        // attrib_xxx_value xxx - имеет одну цифру на блок. т.е. каждый элемент блока имеет одинаковые цифры
+        // и наоборот счетчик cond_id общий на всю процедуру.
+        // заменить нужные значения в шаблонах. собрать процедуру и вывести на экран.
 
         return cycleElements;
     }

@@ -20,7 +20,7 @@ public class Controller {
             //передаем полученный документ в класс парсера
             DocumentParser documentParser = new DocumentParser(documentExtractor.getDocFromFs());
             // далее в documentParser преобразуем данные в обьекты/блоки процедуры CycleElement
-            documentParser.getAllDocument();
+            documentParser.generateProcedure();
         });
     }
 
