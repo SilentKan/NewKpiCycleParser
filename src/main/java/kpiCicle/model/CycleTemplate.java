@@ -2,7 +2,6 @@ package main.java.kpiCicle.model;
 
 import java.time.LocalDate;
 
-//содержит шаблоны процедуры для дальнейшего заполнения
 public class CycleTemplate {
 
     private static CycleTemplate cycleTemplate;
@@ -17,10 +16,7 @@ public class CycleTemplate {
     }
     private static int curCycle = 0;
 
-    // создать методы которые принимают в качетсве аргументов все необходимые переменные и
-    // возвращают блок кода процедуры
-
-    // генерирует шапку процедуры. принмает в аргументы номер цикла
+    // генерирует шапку процедуры. принимает в аргументы номер цикла
     public String buildHeader() {
         String curYear = String.valueOf(LocalDate.now().getYear());
         String headerTemplate = "procedure p_cycle_cond_C_@_curYear(p_id_cycle integer)\n" +

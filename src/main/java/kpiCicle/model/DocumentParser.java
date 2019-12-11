@@ -3,7 +3,6 @@ package main.java.kpiCicle.model;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class DocumentParser {
     private CycleTemplate cycleTemplate = CycleTemplate.getInstance();
     private  String codeFromBD = "Null";
 
-    // парсим документ на блоки
+    // парсит документ на блоки
     public List<StringBuilder> parseDocOnBlocks() {
         List<String> lines = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
@@ -28,7 +27,7 @@ public class DocumentParser {
             if (st.length() == 0 || st.length() == 1 || st.contains("Visited Route Outlets")) {
                 continue;
             }
-            lines.add(st);
+            lines.add(st.replaceAll("\t", ""));
         }
         int index = lines.indexOf("GrCoSp");
         lines  = lines.subList(index + 1, lines.size());
@@ -47,6 +46,7 @@ public class DocumentParser {
         return blocks;
     }
 
+    // генерирует код итоговой процедуры
     public String generateProcedure() {
         int condId = 1;
         String result = cycleTemplate.buildHeader() + "\n";
@@ -59,6 +59,7 @@ public class DocumentParser {
             String comment = blockMass[0].split("-")[0].trim();
 
                 for (int i = 1; i < blockMass.length; i++) {
+                        if (blockMass[i].isEmpty()) { continue; }
                         String[] subBlock = blockMass[i].split("=");
                         String condName = subBlock[0].trim();
                         String attribValue = subBlock[2].trim();
@@ -73,30 +74,7 @@ public class DocumentParser {
         }
         result = result + activeBlocks + "\n";
         result = result + cycleTemplate.buildEndBlock() + "\n";
-
-
-
-
-
-
-// System.out.println(condId + ") " + comment + "\n" + condName + "\n" + attribValue + "\n" + (blocks.indexOf(block) + 1));
         return result;
-        /*for (StringBuilder st: blocks) {
-            System.out.println(st);
-            System.out.println("------");
-        }*/
-
-        // вот это надо внедрить чуть по выше. сейчас для тестов ок
-
-
-
-
-
-
-        // прочитать элементы коллекции blocks. каждая строка это блок, состоящий из нескольких условий.
-        // attrib_xxx_value xxx - имеет одну цифру на блок. т.е. каждый элемент блока имеет одинаковые цифры
-        // и наоборот счетчик cond_id общий на всю процедуру.
-        // заменить нужные значения в шаблонах. собрать процедуру и вывести на экран.
     }
 
     public String getCodeFromBD() {

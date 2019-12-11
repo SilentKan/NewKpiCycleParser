@@ -1,6 +1,7 @@
 package main.java.kpiCicle.model;
 
 import javafx.stage.FileChooser;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -34,3 +35,6 @@ public class DocumentExtractor {
         return document;
     }
 }
+
+//TODO при возникающих ошибках вывести сообщение пользователю
+//TODO сделать проверку если парсинг имени файла завершиться неудачей, вывести сообщение с подсказкой
