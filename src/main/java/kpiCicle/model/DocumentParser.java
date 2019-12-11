@@ -52,7 +52,6 @@ public class DocumentParser {
         String result = cycleTemplate.buildHeader() + "\n";
         result = result + cycleTemplate.buildBeginPart(codeFromBD) + "\n\n";
         String activeBlocks = "---------ACTIVITIES----------------\n";
-
         List<StringBuilder> blocks = parseDocOnBlocks();
         for (StringBuilder block: blocks) {
             String[] blockMass = block.toString().split(";");
@@ -60,9 +59,16 @@ public class DocumentParser {
 
                 for (int i = 1; i < blockMass.length; i++) {
                         if (blockMass[i].isEmpty()) { continue; }
-                        String[] subBlock = blockMass[i].split("=");
-                        String condName = subBlock[0].trim();
-                        String attribValue = subBlock[2].trim();
+                        String condName = null;
+                        String attribValue = null;
+                        try {
+                            String[] subBlock = blockMass[i].split("=");
+                            condName = subBlock[0].trim();
+                            attribValue = subBlock[2].trim();
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            AlertGenerator.showAlert("В процессе генерации процедуры возникла ошибка\n " +
+                                    "Проверь что все названия начинаются со * кроме Нелегального и Активностей\n Тек же что в начале нет пробелов");
+                        }
                         if (!comment.startsWith("Активность")) {
                             result = result + cycleTemplate.buildMainBlock(condId, comment, condName, attribValue, blocks.indexOf(block) + 1) + "\n\n";
                             condId++;

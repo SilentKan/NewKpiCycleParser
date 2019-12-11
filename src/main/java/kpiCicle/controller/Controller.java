@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import main.java.kpiCicle.model.AlertGenerator;
 import main.java.kpiCicle.model.DocumentExtractor;
 import main.java.kpiCicle.model.DocumentParser;
 
@@ -25,14 +26,16 @@ public class Controller {
         uploadFile.setOnAction(event -> {
             // передаем полученный документ в класс парсера
             DocumentParser documentParser = new DocumentParser(documentExtractor.getDocFromFs());
-            // если поле пустое вывести предупреждение.
             if (!textField.getText().isEmpty()) {
                 documentParser.setCodeFromBD(textField.getText());
+                resultTextArea.appendText(documentParser.generateProcedure());
+                textField.clear();
+            } else {
+                AlertGenerator.showAlert("Ты забыл ввести код в поле\n " +
+                        "SELECT ID_ASSESS_TEMPLATE from LDWH.D_ASSESS_TEMPLATE where SIEBEL_ASSESS_TMPL_ID = '%TEMPLATE_ID%'");
             }
-            resultTextArea.appendText(documentParser.generateProcedure());
-            textField.clear();
         });
     }
 }
 
-//TODO если поле пустое вывести предупреждение.
+//TODO если поле пустое вывести предупреждение. +
