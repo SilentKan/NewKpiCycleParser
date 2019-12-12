@@ -1,4 +1,4 @@
-package main.java.kpiCicle.model;
+package main.java.kpiCycle.model;
 
 import javafx.stage.FileChooser;
 
@@ -8,9 +8,9 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-
-// извлекает документ из файловой системы
 public class DocumentExtractor {
     private CycleTemplate cycleTemplate = CycleTemplate.getInstance();
 
@@ -21,9 +21,13 @@ public class DocumentExtractor {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("docx", "*.docx"));
         file = fileChooser.showOpenDialog(null);
 
-        if (!file.equals(null)) {
+        if (file != null) {
             try {
-                cycleTemplate.setNumberOfCycle(Integer.valueOf(file.getName().substring(12, 14)));
+                Pattern pattern = Pattern.compile("\\d{2}");
+                Matcher matcher = pattern.matcher(file.getName());
+                int cycleNum = 0;
+                while (matcher.find()) {cycleNum = Integer.valueOf(file.getName().substring(matcher.start(), matcher.end()));}
+                cycleTemplate.setNumberOfCycle(cycleNum);
                 document = new XWPFDocument(OPCPackage.open(file));
             } catch (IOException e) {
                 e.printStackTrace();

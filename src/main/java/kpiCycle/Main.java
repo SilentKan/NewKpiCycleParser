@@ -1,4 +1,4 @@
-package main.java.kpiCicle;
+package main.java.kpiCycle;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -1,4 +1,4 @@
-package main.java.kpiCicle.model;
+package main.java.kpiCycle.model;
 
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;

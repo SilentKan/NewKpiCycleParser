@@ -1,13 +1,13 @@
-package main.java.kpiCicle.controller;
+package main.java.kpiCycle.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import main.java.kpiCicle.model.AlertGenerator;
-import main.java.kpiCicle.model.DocumentExtractor;
-import main.java.kpiCicle.model.DocumentParser;
+import main.java.kpiCycle.model.AlertGenerator;
+import main.java.kpiCycle.model.DocumentExtractor;
+import main.java.kpiCycle.model.DocumentParser;
 
 public class Controller {
     DocumentExtractor documentExtractor = new DocumentExtractor();
@@ -23,8 +23,8 @@ public class Controller {
 
     @FXML
     void initialize() {
+        AlertGenerator.startMessage();
         uploadFile.setOnAction(event -> {
-            // передаем полученный документ в класс парсера
             DocumentParser documentParser = new DocumentParser(documentExtractor.getDocFromFs());
             if (!textField.getText().isEmpty()) {
                 documentParser.setCodeFromBD(textField.getText());

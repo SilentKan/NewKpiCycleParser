@@ -1,4 +1,4 @@
-package main.java.kpiCicle.model;
+package main.java.kpiCycle.model;
 
 import java.time.LocalDate;
 
@@ -9,14 +9,13 @@ public class CycleTemplate {
     public static CycleTemplate getInstance() {
         if (cycleTemplate == null) {
             cycleTemplate = new CycleTemplate();
-            return cycleTemplate;
-        } else {
-            return cycleTemplate;
         }
+        return cycleTemplate;
     }
+
     private static int curCycle = 0;
 
-    // генерирует шапку процедуры. принимает в аргументы номер цикла
+
     public String buildHeader() {
         String curYear = String.valueOf(LocalDate.now().getYear());
         String headerTemplate = "procedure p_cycle_cond_C_@_curYear(p_id_cycle integer)\n" +
@@ -35,8 +34,6 @@ public class CycleTemplate {
         return headerTemplate;
     }
 
-    // генерирует начальный блок. принимает цифры, полученные в результате запроса к бд.
-    //SELECT ID_ASSESS_TEMPLATE from LDWH.D_ASSESS_TEMPLATE where SIEBEL_ASSESS_TMPL_ID = '%TEMPLATE_ID%';
     public String buildBeginPart(String codeFromDb) {
         String beginPart = "BEGIN\n" +
                 "\n" +
@@ -68,7 +65,6 @@ public class CycleTemplate {
         return beginPart;
     }
 
-    // строит основные блоки.
     public String buildMainBlock(int condId,String headerComment ,String condName, String attribValue, int attribCounter) {
         String mainTemplate = "-- attribCounter) headerComment\n" +
                 "\n" +
@@ -89,13 +85,7 @@ public class CycleTemplate {
                 "                        END IF;\n" +
                 "\n" +
                 "                        cc_tab(i).cond_perc := 1;";
-        String attrbCounter = String.valueOf(attribCounter);
-        if (attrbCounter.length() == 1) {
-            attrbCounter = "00" + attrbCounter;
-        }
-        if (attrbCounter.length() == 2) {
-            attrbCounter = "0" + attrbCounter;
-        }
+        String attrbCounter = generateAttributeCounter(attribCounter);
         mainTemplate =  mainTemplate
                 .replace("attribCounter", String.valueOf(attribCounter))
                 .replace("headerComment", headerComment)
@@ -107,7 +97,6 @@ public class CycleTemplate {
         return mainTemplate;
     }
 
-    // строит блок Act
     public String buildActBlock(int condId, String condName, int attribCounter) {
         String actTemplate = "                        i := i + 1;\n" +
                 "                        cc_tab(i).id_posterr := line.id_posterr; cc_tab(i).id_customer_ent := line.id_customer_ent;\n" +
@@ -121,13 +110,7 @@ public class CycleTemplate {
                 "\n" +
                 "                        cc_tab(i).cond_perc := 1;\n" +
                 "                        --";
-        String attrbCounter = String.valueOf(attribCounter);
-        if (attrbCounter.length() == 1) {
-            attrbCounter = "00" + attrbCounter;
-        }
-        if (attrbCounter.length() == 2) {
-            attrbCounter = "0" + attrbCounter;
-        }
+        String attrbCounter = generateAttributeCounter(attribCounter);
         actTemplate = actTemplate
                 .replace("condId", String.valueOf(condId))
                 .replace("condName", condName)
@@ -135,7 +118,6 @@ public class CycleTemplate {
         return actTemplate;
     }
 
-    // строит завершение процедуры. не изменяется.
     public String buildEndBlock() {
         return "END IF;\n" +
                 "                END LOOP;\n" +
@@ -157,5 +139,16 @@ public class CycleTemplate {
 
     public void setNumberOfCycle(int numberOfCycle) {
         this.curCycle = numberOfCycle;
+    }
+
+    private String generateAttributeCounter(int arrtribCounter) {
+        String attrbCounter = String.valueOf(arrtribCounter);
+        if (attrbCounter.length() == 1) {
+            attrbCounter = "00" + attrbCounter;
+        }
+        if (attrbCounter.length() == 2) {
+            attrbCounter = "0" + attrbCounter;
+        }
+        return attrbCounter;
     }
 }
